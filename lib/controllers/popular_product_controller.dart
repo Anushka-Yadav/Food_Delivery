@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import '../data/repository/popular_product_repo.dart';
 import '../models/cart_model.dart';
 import '../models/product_model.dart';

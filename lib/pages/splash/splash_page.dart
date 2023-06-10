@@ -34,12 +34,12 @@ class _SplashScreenState extends State<SplashScreen>
     // TODO: implement initState
     super.initState();
     _loadResource();
-    _controller = new AnimationController(
+    _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
     )..forward();
 
-    _animation = new CurvedAnimation(
+    _animation = CurvedAnimation(
       parent: _controller,
       curve: Curves.linear,
     );
@@ -61,17 +61,12 @@ class _SplashScreenState extends State<SplashScreen>
             scale: _animation,
             child: Center(
               child: Image.asset(
-                "assets/image/logo part 1.png",
+                "assets/images/logo.png",
                 width: Dimensions.splashImgWidth,
               ),
             ),
-          ),
-          Center(
-            child: Image.asset(
-              "assets/image/logo part 2.png",
-              width: Dimensions.splashImgWidth,
-            ),
-          ),
+           ),
+
         ],
       ),
     );

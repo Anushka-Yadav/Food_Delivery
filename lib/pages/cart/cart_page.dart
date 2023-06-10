@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:food_delivery/base/no_data_page.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/cart_controller.dart';
@@ -69,9 +70,10 @@ class CartPage extends StatelessWidget {
           ),
           GetBuilder<CartController>(
             builder: (cartController) {
-              var _cartList = cartController.getItems;
+              var _cartList = cartController.getItems.length;
+              
 
-              return Positioned(
+              return _cartList>0?Positioned(
                 top: Dimensions.height100,
                 right: Dimensions.width20,
                 left: Dimensions.width20,
@@ -117,9 +119,21 @@ class CartPage extends StatelessWidget {
                                            RecommendedProductController>()
                                            .recommendedProductList
                                            .indexOf(_cartList[index].product!);
-                                       Get.toNamed(
-                                           RouteHelper.getRecommendedFoodDetail(
-                                               recommendedIndex, "cartpage"));
+                                       // Get.toNamed(
+                                       //     RouteHelper.getRecommendedFoodDetail(
+                                       //         recommendedIndex, "cartpage"));
+                                       if(recommendedIndex<0){
+                                         Get.snackbar(
+                                           "History Product",
+                                           "Product review is not available for history product !",
+                                           backgroundColor: AppColors.mainColor,
+                                           colorText: Colors.white,
+                                         );
+                                       }else{
+                                         Get.toNamed(
+                                                 RouteHelper.getRecommendedFoodDetail(
+                                                     recommendedIndex, "cartpage"));
+                                       }
                                      }
                                    },
                                    child: Container(
@@ -132,8 +146,8 @@ class CartPage extends StatelessWidget {
                                        image: DecorationImage(
                                          fit: BoxFit.cover,
                                          image: NetworkImage(
-                                             AppConstants.BASE_URL +  AppConstants.UPLOADS_URL +
-                                                 _cartList[index].img!),
+                                             AppConstants.BASE_URL +AppConstants.UPLOADS_URL+ _cartList[index].img!
+                                         ),
                                        ),
                                      ),
                                    ),
@@ -232,7 +246,7 @@ class CartPage extends StatelessWidget {
                    }),
                   ),
                 ),
-              );
+              ):NoDataPage(text: "Your Cart is Empty!");
             },
           )
         ],
@@ -255,7 +269,7 @@ class CartPage extends StatelessWidget {
             ),
             color: AppColors.buttonBackgroundColor,
           ),
-          child: Row(
+          child: cartController.getItems.length>0?Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Minus, Plus and Counting of Food
@@ -287,6 +301,8 @@ class CartPage extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   //popularProduct.addItem(product);
+                  print("tapped");
+                  cartController.addToHistory();
                 },
                 child: Container(
                   padding: EdgeInsets.only(
@@ -309,7 +325,7 @@ class CartPage extends StatelessWidget {
                 ),
               ),
             ],
-          ),
+          ):Container(),
         );
       }),
     );

@@ -19,14 +19,12 @@ Future<void> init() async {
   Get.lazyPut(() => ApiClient(appBaseUrl: AppConstants.BASE_URL));
 
   // Repos
-  Get.lazyPut(
-          () => PopularProductRepo(apiClient: Get.find())); // find ApiClient
+  Get.lazyPut(() => PopularProductRepo(apiClient: Get.find())); // find ApiClient
   Get.lazyPut(() => RecommendedProductRepo(apiClient: Get.find()));
   Get.lazyPut(() => CartRepo(sharedPreferences: Get.find()));
 
   // Controller
   Get.lazyPut(() => PopularProductController(popularProductRepo: Get.find()));
-  Get.lazyPut(
-          () => RecommendedProductController(recommendedProductRepo: Get.find()));
+  Get.lazyPut(() => RecommendedProductController(recommendedProductRepo: Get.find()));
   Get.lazyPut(() => CartController(cartRepo: Get.find()));
 }
